@@ -1,7 +1,7 @@
 import json
-from models.base_model import BaseModel
+import models
 
-
+# When using init to import model
 class FileStorage:
     __file_path = "file.json"
     __objects = {}
@@ -70,7 +70,7 @@ class FileStorage:
                     # if the key_file is not in the storage.keys()
                     # we want to create a new instance and pass it argument and kwargs
                     if file_key not in FileStorage.__objects.keys():
-                        newInst = BaseModel(**dict_obj)
+                        newInst = models.BaseModel(**dict_obj)
                         self.new(newInst)
                     # if the key_file already exist in the __object we dnt want to do any thing
         except FileNotFoundError:

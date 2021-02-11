@@ -4,6 +4,7 @@ Base Module For Air BnB Console
 """
 import uuid
 from datetime import datetime
+import models
 
 
 class BaseModel:
@@ -11,7 +12,7 @@ class BaseModel:
     Base Class of AirBnb Console
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Init of Object
             Attributes:
@@ -22,12 +23,18 @@ class BaseModel:
                     generated again when object modified
                     by adding it to method that change object like save
         """
-        from models import storage
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-        # each new instance created is added to the storage variable __objects
-        storage.new(self)
+        if len(kwargs) == 0:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            models.storage.new(self)
+    # each new instance created is added to the storage variable __objects
+        else:
+            kwargs["created_at"] = datetime.strptime(kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
+            kwargs["updated_at"] = datetime.strptime(kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
+            for key, val in kwargs.items():
+                if "__class__" not in key:
+                    setattr(self, key, val)
 
     def __str__(self):
         """
@@ -44,9 +51,8 @@ class BaseModel:
             for now just update update_at
         """
         self.updated_at = datetime.now()
-        from models import storage
         # only when we save the instance, its writen into the json file
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """
