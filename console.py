@@ -1,9 +1,9 @@
+#!/usr/bin/python3
 import cmd
 from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
-
     prompt = '(hbnb) '
 
     # ----- basic turtle commands -----
@@ -17,3 +17,6 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         pass
+
+
+HBNBCommand().cmdloop()
