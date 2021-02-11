@@ -1,5 +1,5 @@
 import cmd
-from BaseModel import BaseModel
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
@@ -17,8 +17,3 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         pass
-
-
-
-
-
