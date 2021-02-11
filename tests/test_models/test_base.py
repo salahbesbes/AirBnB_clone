@@ -24,6 +24,7 @@ class TestDocBase(unittest.TestCase):
         """
             Check pep8 for base module file
         """
+        print("------- Testing Pep8 Base Module -------------")
         pep = pep8.StyleGuide(quiet=True)
         result = pep.check_files(['models/base_model.py'])
         self.assertEqual(
