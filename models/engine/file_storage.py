@@ -1,5 +1,10 @@
+"""
+    file storage modules
+"""
 import json
-import models
+from models.base_model import BaseModel
+from models.user import User
+
 
 # When using init to import model
 class FileStorage:
@@ -70,7 +75,8 @@ class FileStorage:
                     # if the key_file is not in the storage.keys()
                     # we want to create a new instance and pass it argument and kwargs
                     if file_key not in FileStorage.__objects.keys():
-                        newInst = models.BaseModel(**dict_obj)
+                        className = dict_obj["__class__"]
+                        newInst = eval("{}(**dict_obj)".format(className))
                         self.new(newInst)
                     # if the key_file already exist in the __object we dnt want to do any thing
         except FileNotFoundError:
