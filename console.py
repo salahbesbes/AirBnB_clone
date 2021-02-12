@@ -2,6 +2,9 @@
 import cmd
 from models import BaseModel
 from models import FileStorage
+from models import User
+
+
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
@@ -36,8 +39,9 @@ class HBNBCommand(cmd.Cmd):
                 # split the args and use eval (evaluate expression dynamically to Python expression) for example :
                 # arg [0] = BaseModel it will evaluate to BaseModel() 
                 # arg[0] = ahmed it will fail cuz there is no method or any python expretion as ahmed()
-                # it will only work with method or module imported in the file source 
-                new_inst = eval(args[0])()
+                # it will only work with method or module imported in the file source
+                print(args[0])
+                new_inst = eval("{}()".format(args[0]))
                 new_inst.save()
                 print(new_inst.id)
             except:
@@ -56,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         except:
             print("** class doesn't exist **")
             return
-        if len (args) == 1:
+        if len(args) == 1:
             print("** instance id missing **")
         else:
             storage = FileStorage()
@@ -82,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
         except:
             print("** class doesn't exist **")
             return
-        if len (args) == 1:
+        if len(args) == 1:
             print("** instance id missing **")
         else:
             storage = FileStorage()
@@ -111,8 +115,8 @@ class HBNBCommand(cmd.Cmd):
             try:
                 for obj_id in container_obj.keys():
                     if type(container_obj[obj_id]) is eval(args[0]):
-                        print(container_obj[obj_id]) 
-            except: 
+                        print(container_obj[obj_id])
+            except:
                 print("** class doesn't exist **")
                 return
 
@@ -136,6 +140,7 @@ class HBNBCommand(cmd.Cmd):
                 key_id = args[0] + "." + args[1]
                 container_obj = storage.all()
                 if key_id in container_obj:
+                    value = ""
                     try:
                         value = container_obj[key_id]
                         type_atr = type(getattr(value, args[2]))
