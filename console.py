@@ -31,7 +31,6 @@ class HBNBCommand(cmd.Cmd):
             args = (line.replace('(', '.').replace(',', '.').replace(' ', '')
                [:-1].split('.'))
             if len(args) > 1:
-                print(args[1])
                 if inspect.isclass(eval(args[0])) is True:
                     arg = args[0] + ' ' + args[2]
                     if args[1] == "all":
@@ -44,7 +43,8 @@ class HBNBCommand(cmd.Cmd):
                         return self.do_update(arg + ' ' + args[3] + ' ' + args[4])
                     elif args[1] == "count":
                         i = 0
-                        for args[0] in storage.all():
+                        object_container = storage.all()
+                        for args[0] in object_container:
                             i += 1
                         print(i)
             else:
