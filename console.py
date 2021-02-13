@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 import cmd
-from models import BaseModel
+from models import BaseModel , User, Amenity, Review, City, Place, State
 from models import FileStorage
-from models import User
-
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
@@ -40,7 +38,6 @@ class HBNBCommand(cmd.Cmd):
                 # arg [0] = BaseModel it will evaluate to BaseModel() 
                 # arg[0] = ahmed it will fail cuz there is no method or any python expretion as ahmed()
                 # it will only work with method or module imported in the file source
-                print(args[0])
                 new_inst = eval("{}()".format(args[0]))
                 new_inst.save()
                 print(new_inst.id)
