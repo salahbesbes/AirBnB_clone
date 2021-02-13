@@ -43,7 +43,10 @@ class HBNBCommand(cmd.Cmd):
                     elif args[1] == "update":
                         return self.do_update(arg + ' ' + args[3] + ' ' + args[4])
                     elif args[1] == "count":
-                        print(len(storage.all()))
+                        i = 0
+                        for args[0] in storage.all():
+                            i += 1
+                        print(i)
             else:
                 print("*** Unknown syntax: {}".format(line))
                 return False
