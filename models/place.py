@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
     Place modules
 """
@@ -5,8 +6,8 @@ from models.base_model import BaseModel
 
 
 class Place(BaseModel):
-    city_id = "city_id"
-    user_id = "user_id"
+    city_id = ""
+    user_id = ""
     name = ""
     description = ""
     number_rooms = 0

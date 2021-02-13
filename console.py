@@ -1,14 +1,7 @@
 #!/usr/bin/python3
 import cmd
-from models import BaseModel
+from models import BaseModel , User, Amenity, Review, City, Place, State
 from models import FileStorage
-from models import User
-from models import Review
-from models import City
-from models import Amenity
-from models import Place
-from models import State
-
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
@@ -178,4 +171,5 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
 
-HBNBCommand().cmdloop()
+if __name__ == "__main__":
+    HBNBCommand().cmdloop()

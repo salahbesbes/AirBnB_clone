@@ -28,6 +28,7 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             models.storage.new(self)
+            models.storage.save()
         # each new instance created is added to the storage variable __objects
         else:
             kwargs["created_at"] = datetime.strptime(kwargs["created_at"],
@@ -44,7 +45,7 @@ class BaseModel:
         :return:
         """
         return ("[{}] ({}) {})".format(
-            __class__.__name__,
+            self.__class__.__name__,
             self.id,
             self.__dict__))
 

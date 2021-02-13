@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
     Review modules
 """
@@ -6,8 +7,8 @@ from uuid import UUID
 
 
 class Review(BaseModel):
-    place_id = "place_id"
-    user_id = "place_id"
+    place_id = ""
+    user_id = ""
     text = ""
 
     def __init__(self, *args, **kwargs):

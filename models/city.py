@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
     City modules
 """
@@ -6,7 +7,7 @@ from uuid import UUID
 
 
 class City(BaseModel):
-    state_id = "state_id"
+    state_id = ""
     name = ""
 
     def __init__(self, *args, **kwargs):
