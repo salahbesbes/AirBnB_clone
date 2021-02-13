@@ -47,22 +47,25 @@ class FileStorage:
     def save(self):
         """
             each object/instance in the private class att __objects
-            we serialise the instance (by creating a newDict of key and dict of attrs)
+            we serialise the instance (by creating a newDict of
+            key and dict of attrs)
             then write the newDict to the file.json
         """
         dict_objs = FileStorage.__objects
         with open(FileStorage.__file_path, mode="w") as file:
             if dict_objs is None:
                 dict_objs = {}
-            # newJson : { BaseModel.123456 : {'id' : 123456, 'name': "holberton"} ..........}
-            newJson = {key: instance.to_dict() for key, instance in dict_objs.items()}
+            # newJson : { BaseModel.123 : {'id' : 123, 'name': "xx"} ....}
+            newJson = {key: instance.to_dict()
+                       for key, instance in dict_objs.items()}
             file.write(self.to_json_string(newJson))
 
     def reload(self):
         """
         read from the file, deserialize the dict obtained from the file
         each val from the dict is a dict of args and kwargs of an instance
-        each key found represent an instance we check if it exit else we create new one
+        each key found represent an instance we check if it
+        exit else we create new one
         and append if to the __objects
         :return: None
         """
@@ -73,11 +76,10 @@ class FileStorage:
 
                 for file_key, dict_obj in dict_from_file.items():
                     # if the key_file is not in the storage.keys()
-                    # we want to create a new instance and pass it argument and kwargs
+                    # create a new instance and pass it argument and kwargs
                     if file_key not in FileStorage.__objects.keys():
                         className = dict_obj["__class__"]
                         newInst = eval("{}(**dict_obj)".format(className))
                         self.new(newInst)
-                    # if the key_file already exist in the __object we dnt want to do any thing
         except FileNotFoundError:
             pass
