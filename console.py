@@ -46,8 +46,9 @@ class HBNBCommand(cmd.Cmd):
                 <class name>.update(<id>, <attribute name>, <attribute value>)
         """
         try:
-            args = (line.replace('(', '.').replace(',', '.').replace(' ', '')
+            args = (line.replace('(', '.').replace(',', '.').replace(' ', '').replace('"',"").replace("'","")
                [:-1].split('.'))
+            print(args)
             if len(args) > 1:
                 if inspect.isclass(eval(args[0])) is True:
                     arg = args[0] + ' ' + args[2]
@@ -56,6 +57,8 @@ class HBNBCommand(cmd.Cmd):
                     elif args[1] == "show":
                         return self.do_show(arg)
                     elif args[1] == "destroy":
+                        print("in default")
+                        print (arg)
                         return self.do_destroy(arg)
                     elif args[1] == "update":
                         return self.do_update(arg + ' ' + args[3] + ' ' + args[4])
