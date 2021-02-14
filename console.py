@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+
+
+"""
+Console For AirBnb Clone
+"""
 import cmd
 from models import BaseModel, User, Amenity, Review, City, Place, State
 import inspect
@@ -8,6 +13,9 @@ storage = models.storage
 
 
 class HBNBCommand(cmd.Cmd):
+    """
+        Console Class
+    """
     prompt = '(hbnb) '
 
     def do_EOF(self, arg):
@@ -41,6 +49,13 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, line):
         """
+            Change Default console action:
+            Usage:
+                <class name>.count()
+                <class name>.all()
+                <class name>.show(<id>)
+                <class name>.destroy(<id>)
+                <class name>.update(<id>, <attribute name>, <attribute value>)
         """
         first_brace, second_brace = self.check_for_braces(line)
         if first_brace is not False:
@@ -57,6 +72,7 @@ class HBNBCommand(cmd.Cmd):
         try:
             args = (line.replace('(', '.').replace(',', '.').replace(' ', '').replace('"', "").replace("'", "")
                     [:-1].split('.'))
+            print(args)
             if len(args) > 1:
                 if inspect.isclass(eval(args[0])) is True:
                     arg = args[0] + ' ' + args[2]
@@ -65,6 +81,8 @@ class HBNBCommand(cmd.Cmd):
                     elif args[1] == "show":
                         return self.do_show(arg)
                     elif args[1] == "destroy":
+                        print("in default")
+                        print(arg)
                         return self.do_destroy(arg)
                     elif args[1] == "update":
                         return self.do_update(arg + ' ' + args[3] + ' ' + args[4])
@@ -171,7 +189,6 @@ class HBNBCommand(cmd.Cmd):
             return
         if len(args) == 1:
             try:
-                eval(args[0])
                 for obj_id in container_obj.keys():
                     if type(container_obj[obj_id]) is eval(args[0]):
                         # the solution is using reper() => print the type too
@@ -179,7 +196,7 @@ class HBNBCommand(cmd.Cmd):
                         obj = container_obj[obj_id]
                         list_strings.append(str(obj))
                 print(list_strings)
-            except Exception:
+            except:
                 print("** class doesn't exist **")
                 return
 
@@ -198,18 +215,47 @@ class HBNBCommand(cmd.Cmd):
         length_args = len(args)
         if length_args == 0:
             print("** class name missing **")
-        elif length_args == 1:
-            print("** instance id missing **")
-        elif length_args == 2:
-            print("** attribute name missing **")
-        elif length_args == 3:
-            print("** value missing **")
-        else:
+            return
+        if len(args) >= 1:
+            try:
+                eval(args[0])
+                if len(args) == 1:
+                    print("** instance id missing **")
+                    return
+                try:
+                    key_id = args[0] + "." + args[1]
+                    container_obj = storage.all()
+                    container_obj[key_id]
+                except:
+                    print("** no instance found **")
+                    return
+            except:
+                print("** class doesn't exist **")
+                return
+        if len(args) >= 2:
+            try:
+                eval(args[0])
+                if len(args) == 2:
+                    print("** attribute name missing **")
+                    return
+            except:
+                print("** class doesn't exist **")
+                return
+
+        if len(args) >= 3:
+            try:
+                eval(args[0])
+                if len(args) == 3:
+                    print("** value missing **")
+                    return
+            except:
+                print("** class doesn't exist **")
+                return
+        if len(args) >= 4:
             class_name = args[0]
             obj_id = args[1]
             obj_attr = args[2]
             obj_new_val = args[3]
-            # obj_new_val = obj_new_val[1:-1]
             try:
                 eval(class_name)
                 key_id = class_name + "." + obj_id
@@ -229,6 +275,10 @@ class HBNBCommand(cmd.Cmd):
                         print(ex, "but i will set it as new attr")
                         obj_new_val = self.convert_new_val(obj_new_val)
                         pass
+                        if ((obj_new_val[0] == "\'") or (obj_new_val[0] == "\"")) and (
+                                (obj_new_val[len(obj_new_val) - 1] == "\'") or (
+                                obj_new_val[len(obj_new_val) - 1] == "\"")):
+                            obj_new_val = obj_new_val[1:-1]
                     setattr(obj, obj_attr, obj_new_val)
                     storage.save()
                 else:
@@ -277,5 +327,3 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
-Place.update("8b1f86cf-535e-4f82-9c7d-2d7269f011ba",
-             {"description": "this is description", "number_bathrooms": 58749, "latitude": "test1", "amenity_ids": []})
