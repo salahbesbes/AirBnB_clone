@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import cmd
-from models import BaseModel , User, Amenity, Review, City, Place, State
+from models import BaseModel, User, Amenity, Review, City, Place, State
 from models import FileStorage
+
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
@@ -117,6 +118,7 @@ class HBNBCommand(cmd.Cmd):
             return
         if len(args) == 1:
             try:
+                eval(args[0])
                 for obj_id in container_obj.keys():
                     if type(container_obj[obj_id]) is eval(args[0]):
                         # the solution is using reper() => print the type too
@@ -124,11 +126,11 @@ class HBNBCommand(cmd.Cmd):
                         obj = container_obj[obj_id]
                         list_strings.append(str(obj))
                 print(list_strings)
-            except:
+            except Exception:
                 print("** class doesn't exist **")
                 return
 
-    def do_update(self, arg):
+    def do_update(self, arg: str):
         """
         Updates an instance based on the class name and id
         by adding or updating attribute
@@ -139,36 +141,61 @@ class HBNBCommand(cmd.Cmd):
         storage = FileStorage()
         storage.reload()
         args = arg.split()
-        if len(args) == 0:
+        length_args = len(args)
+        if length_args == 0:
             print("** class name missing **")
-        elif len(args) == 1:
+        elif length_args == 1:
             print("** instance id missing **")
-        elif len(args) == 2:
+        elif length_args == 2:
             print("** attribute name missing **")
-        elif len(args) == 3:
+        elif length_args == 3:
             print("** value missing **")
         else:
+            class_name = args[0]
+            obj_id = args[1]
+            obj_attr = args[2]
+            obj_new_val = args[3]
+            obj_new_val = obj_new_val[1:-1]
             try:
-                eval(args[0])
-                key_id = args[0] + "." + args[1]
+                eval(class_name)
+                key_id = class_name + "." + obj_id
                 container_obj = storage.all()
                 if key_id in container_obj:
-                    obj = ""
+                    obj = container_obj[key_id]
                     try:
-                        obj = container_obj[key_id]
-                        type_atr = type(getattr(obj, args[2]))
-                        args[3] = type_atr(args[3])
-                    except:
+                        type_attr = type(getattr(obj, obj_attr))
+                        if self.same_type_as_attr(obj_new_val, type_attr) is True:
+                            obj_new_val = type_attr(obj_new_val)
+                        else:
+                            return
+                    except Exception as ex:
+                        print(ex)
                         pass
-                    value_id = args[3]
-                    value_id = value_id[1:-1]
-                    setattr(obj, args[2], value_id)
+                    setattr(obj, obj_attr, obj_new_val)
                     storage.save()
                 else:
                     print("** no instance found **")
                     return
-            except:
+            except Exception as ex:
+                print(ex)
                 print("** class doesn't exist **")
+
+    @staticmethod
+    def same_type_as_attr(new_att, att_type):
+        try:
+            # try to cast
+            value = att_type(new_att)
+            print(value)
+            if att_type is list:
+                if len(value[0]) == 1:
+                    return False
+            if att_type is int or att_type is float:
+                if value < 0:
+                    return False
+            return True
+        except ValueError:
+            # if cast fail return False
+            return False
 
 
 if __name__ == "__main__":

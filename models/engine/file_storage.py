@@ -13,7 +13,7 @@ from models.state import State
 
 class FileStorage:
     """
-        F
+        File Storage Class
     """
     __file_path = "file.json"
     __objects = {}
@@ -66,7 +66,9 @@ class FileStorage:
         try:
             with open(FileStorage.__file_path, mode="r") as file:
                 content = file.read()
-                dict_from_file = json.loads(content)  # type = dict
+                dict_from_file = {}
+                if content != "":
+                    dict_from_file = json.loads(content)  # type = dict
 
                 for file_key, dict_obj in dict_from_file.items():
                     # if the key_file is not in the storage.keys()
