@@ -18,12 +18,14 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     def do_EOF(self, arg):
+        'Terminate The Console'
         """
         EOF command to exit the program
         """
         return True
 
     def do_quit(self, arg):
+        'Quit  the Console'
         """
         Quit command to exit the program
         """
@@ -31,6 +33,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """
+            Handle empty line <Return>
         """
         pass
 
@@ -94,6 +97,7 @@ class HBNBCommand(cmd.Cmd):
             pass
 
     def do_create(self, arg):
+        ' Create new instance \n ***Usage: Create <Classname>***'
         """
         Creates a new instance of Airbnb models
         Usage: Create <ClassName>
@@ -113,6 +117,7 @@ class HBNBCommand(cmd.Cmd):
                 return
 
     def do_show(self, arg):
+        'print instance info \n usage: show <classname><obj_id>'
         """
         Prints the string representation of an instance based on
         the class name and id
@@ -140,6 +145,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_destroy(self, arg):
+        'Delete instance \n Usage: destroy <classname> <obj_id>'
         """
         Deletes an instance based on the class name and id
         Usage: destroy <Class_Name> <obj_id>
@@ -168,6 +174,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
+        'print all instance or par class\n Usage all or all <classname>'
         """
         Prints all string representation of all instances
         based or not on the class name.
@@ -197,6 +204,7 @@ class HBNBCommand(cmd.Cmd):
                 return
 
     def do_update(self, arg):
+        'Usage update <class name><id> <attribute name> "<attribute value>'
         """
         Updates an instance based on the class name and id
         by adding or updating attribute
@@ -281,6 +289,12 @@ class HBNBCommand(cmd.Cmd):
 
     @staticmethod
     def same_type_as_attr(new_att, att_type):
+        """
+            check type of the attribute and cast it
+            Argument:
+                new_att:
+                att_type:
+        """
         try:
             # try to cast
             if att_type is list:

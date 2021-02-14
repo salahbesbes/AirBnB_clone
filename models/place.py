@@ -6,6 +6,21 @@ from models.base_model import BaseModel
 
 
 class Place(BaseModel):
+    """
+        Place Class inherit from base
+        Attribute:
+            city_id (str)
+            user_id (str)
+            name (str)
+            description (str)
+            number_rooms (int)
+            number_bathrooms (int)
+            max_guest (int)
+            price_by_night (int)
+            latitude  (float)
+            longitude (float)
+            amenity_ids (list)
+    """
     city_id = ""
     user_id = ""
     name = ""
@@ -19,4 +34,7 @@ class Place(BaseModel):
     amenity_ids = []
 
     def __init__(self, *args, **kwargs):
+        """
+            init
+        """
         super().__init__(*args, **kwargs)
