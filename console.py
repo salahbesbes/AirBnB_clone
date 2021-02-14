@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 import cmd
-from models import BaseModel, User, Amenity, Review, City, Place, State
-from models import FileStorage
-
-
+from models import BaseModel , User, Amenity, Review, City, Place, State
+import inspect
+import models
+storage = models.storage
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
@@ -23,6 +23,35 @@ class HBNBCommand(cmd.Cmd):
         """
         """
         pass
+
+    def default(self, line):
+        """
+        """
+        try:
+            args = (line.replace('(', '.').replace(',', '.').replace(' ', '')
+               [:-1].split('.'))
+            if len(args) > 1:
+                if inspect.isclass(eval(args[0])) is True:
+                    arg = args[0] + ' ' + args[2]
+                    if args[1] == "all":
+                        return self.do_all(args[0])
+                    elif args[1] == "show":
+                        return self.do_show(arg)
+                    elif args[1] == "destroy":
+                        return self.do_destroy(arg)
+                    elif args[1] == "update":
+                        return self.do_update(arg + ' ' + args[3] + ' ' + args[4])
+                    elif args[1] == "count":
+                        i = 0
+                        object_container = storage.all()
+                        for args[0] in object_container:
+                            i += 1
+                        print(i)
+            else:
+                print("*** Unknown syntax: {}".format(line))
+                return False
+        except:
+            pass
 
     def do_create(self, arg):
         """
@@ -60,7 +89,6 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
         else:
-            storage = FileStorage()
             storage.reload()
             container_obj = storage.all()
             key_id = args[0] + "." + args[1]
@@ -89,7 +117,6 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
         else:
-            storage = FileStorage()
             storage.reload()
             container_obj = storage.all()
             key_id = args[0] + "." + args[1]
@@ -105,7 +132,6 @@ class HBNBCommand(cmd.Cmd):
         based or not on the class name.
         Usage: all <Class_Name>  OR  all
         """
-        storage = FileStorage()
         storage.reload()
         container_obj = storage.all()
         args = arg.split()
@@ -130,7 +156,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
 
-    def do_update(self, arg: str):
+    def do_update(self, arg):
         """
         Updates an instance based on the class name and id
         by adding or updating attribute
@@ -138,7 +164,6 @@ class HBNBCommand(cmd.Cmd):
         $ update BaseModel 1234-1234 email "x@g.com" first_name "yy" is equal
         $ update BaseModel 1234-1234 email "x@g.com"
         """
-        storage = FileStorage()
         storage.reload()
         args = arg.split()
         length_args = len(args)
