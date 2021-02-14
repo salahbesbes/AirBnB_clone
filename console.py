@@ -265,7 +265,7 @@ class HBNBCommand(cmd.Cmd):
                     try:
                         type_attr = type(getattr(obj, obj_attr))
                         print("expect type_attr", type_attr)
-                        if self.same_type_as_attr(obj_new_val, type_attr) is True:
+                        if self.same_type_as_attr(obj_new_val, type_attr) is not False:
                             print("att exist , old val before cast ", obj_new_val)
                             obj_new_val = type_attr(obj_new_val)
                             print("att exist , new val after cast ", obj_new_val)
@@ -274,11 +274,11 @@ class HBNBCommand(cmd.Cmd):
                     except Exception as ex:
                         print(ex, "but i will set it as new attr")
                         obj_new_val = self.convert_new_val(obj_new_val)
-                        pass
                         if ((obj_new_val[0] == "\'") or (obj_new_val[0] == "\"")) and (
                                 (obj_new_val[len(obj_new_val) - 1] == "\'") or (
                                 obj_new_val[len(obj_new_val) - 1] == "\"")):
                             obj_new_val = obj_new_val[1:-1]
+                        pass
                     setattr(obj, obj_attr, obj_new_val)
                     storage.save()
                 else:
@@ -294,14 +294,13 @@ class HBNBCommand(cmd.Cmd):
             # try to cast
             if att_type is list:
                 try:
-                    print(new_att)
                     cast_list = eval(new_att)
                     for el in cast_list:
                         print("type el", type(el))
                         if type(el) is not str:
                             print("this is not a string list")
                             return False
-                    return True
+                    return cast_list
                 except SyntaxError:
                     print("this is not a list")
                     return False
@@ -319,10 +318,18 @@ class HBNBCommand(cmd.Cmd):
         """
             if new Value is int or float cast it before setting it
         """
-        if obj_new_val.isdigit():
-            return int(obj_new_val)
-        elif obj_new_val.replace(".", "").isdigit():
-            return float(obj_new_val)
+        try:
+            if obj_new_val.isdigit():
+                return int(obj_new_val)
+            elif obj_new_val.replace(".", "").isdigit():
+                return float(obj_new_val)
+            elif type(eval(obj_new_val)) is list:
+                return list(eval(obj_new_val))
+            else:
+                return obj_new_val
+        except:
+            return obj_new_val
+
 
 
 if __name__ == "__main__":
