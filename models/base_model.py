@@ -26,7 +26,7 @@ class BaseModel:
         if len(kwargs) == 0:
             self.id = str(uuid4())
             self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.updated_at = self.created_at
             models.storage.new(self)
             models.storage.save()
         # each new instance created is added to the storage variable __objects
