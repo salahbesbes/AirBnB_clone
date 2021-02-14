@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 import cmd
-from models import BaseModel , User, Amenity, Review, City, Place, State
+from models import BaseModel, User, Amenity, Review, City, Place, State
 import inspect
 import models
+
 storage = models.storage
+
+
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
@@ -24,12 +27,36 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
+    @staticmethod
+    def check_for_braces(command):
+        try:
+            first_brace = command.index("{")
+            second_brace = command.index("}")
+            if command[second_brace + 1] == ")":
+                return first_brace, second_brace
+            else:
+                return False, False
+        except ValueError:
+            return False, False
+
     def default(self, line):
         """
         """
+        first_brace, second_brace = self.check_for_braces(line)
+        if first_brace is not False:
+            core_string = line[:first_brace]
+            str_dict = line[first_brace: second_brace + 1]
+            dict_args = eval(str_dict)
+            for key, val in dict_args.items():
+                print("rep(val) = ", repr(val))
+                print("val = ", val)
+                command = core_string + repr(key) + ', ' + repr(val) + ')'
+                print("command", command)
+                self.default(command)
+            return
         try:
-            args = (line.replace('(', '.').replace(',', '.').replace(' ', '')
-               [:-1].split('.'))
+            args = (line.replace('(', '.').replace(',', '.').replace(' ', '').replace('"', "").replace("'", "")
+                    [:-1].split('.'))
             if len(args) > 1:
                 if inspect.isclass(eval(args[0])) is True:
                     arg = args[0] + ' ' + args[2]
@@ -166,6 +193,8 @@ class HBNBCommand(cmd.Cmd):
         """
         storage.reload()
         args = arg.split()
+        print(arg)
+        print(args)
         length_args = len(args)
         if length_args == 0:
             print("** class name missing **")
@@ -180,7 +209,7 @@ class HBNBCommand(cmd.Cmd):
             obj_id = args[1]
             obj_attr = args[2]
             obj_new_val = args[3]
-            obj_new_val = obj_new_val[1:-1]
+            # obj_new_val = obj_new_val[1:-1]
             try:
                 eval(class_name)
                 key_id = class_name + "." + obj_id
@@ -189,12 +218,16 @@ class HBNBCommand(cmd.Cmd):
                     obj = container_obj[key_id]
                     try:
                         type_attr = type(getattr(obj, obj_attr))
+                        print("expect type_attr", type_attr)
                         if self.same_type_as_attr(obj_new_val, type_attr) is True:
+                            print("att exist , old val before cast ", obj_new_val)
                             obj_new_val = type_attr(obj_new_val)
+                            print("att exist , new val after cast ", obj_new_val)
                         else:
                             return
                     except Exception as ex:
-                        print(ex)
+                        print(ex, "but i will set it as new attr")
+                        obj_new_val = self.convert_new_val(obj_new_val)
                         pass
                     setattr(obj, obj_attr, obj_new_val)
                     storage.save()
@@ -209,11 +242,20 @@ class HBNBCommand(cmd.Cmd):
     def same_type_as_attr(new_att, att_type):
         try:
             # try to cast
-            value = att_type(new_att)
-            print(value)
             if att_type is list:
-                if len(value[0]) == 1:
+                try:
+                    print(new_att)
+                    cast_list = eval(new_att)
+                    for el in cast_list:
+                        print("type el", type(el))
+                        if type(el) is not str:
+                            print("this is not a string list")
+                            return False
+                    return True
+                except SyntaxError:
+                    print("this is not a list")
                     return False
+            value = att_type(new_att)
             if att_type is int or att_type is float:
                 if value < 0:
                     return False
@@ -222,6 +264,18 @@ class HBNBCommand(cmd.Cmd):
             # if cast fail return False
             return False
 
+    @staticmethod
+    def convert_new_val(obj_new_val):
+        """
+            if new Value is int or float cast it before setting it
+        """
+        if obj_new_val.isdigit():
+            return int(obj_new_val)
+        elif obj_new_val.replace(".", "").isdigit():
+            return float(obj_new_val)
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
+Place.update("8b1f86cf-535e-4f82-9c7d-2d7269f011ba",
+             {"description": "this is description", "number_bathrooms": 58749, "latitude": "test1", "amenity_ids": []})
