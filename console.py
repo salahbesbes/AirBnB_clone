@@ -1,10 +1,20 @@
 #!/usr/bin/python3
+
+
+"""
+Console For AirBnb Clone
+"""
 import cmd
 from models import BaseModel , User, Amenity, Review, City, Place, State
 import inspect
 import models
 storage = models.storage
+
+
 class HBNBCommand(cmd.Cmd):
+    """
+        Console Class
+    """
     prompt = '(hbnb) '
 
     def do_EOF(self, arg):
@@ -21,11 +31,19 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """
+        Handle when empty line introduced 
         """
         pass
 
     def default(self, line):
         """
+            Change Default console action:
+            Usage:
+                <class name>.count()
+                <class name>.all()
+                <class name>.show(<id>)
+                <class name>.destroy(<id>)
+                <class name>.update(<id>, <attribute name>, <attribute value>)
         """
         try:
             args = (line.replace('(', '.').replace(',', '.').replace(' ', '')
@@ -167,13 +185,43 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
-        elif len(args) == 1:
-            print("** instance id missing **")
-        elif len(args) == 2:
-            print("** attribute name missing **")
-        elif len(args) == 3:
-            print("** value missing **")
-        else:
+            return
+        if len(args) >= 1:
+            try:
+                eval(args[0])
+                if len(args) == 1:
+                    print("** instance id missing **")
+                    return
+                try:
+                    key_id = args[0] + "." + args[1]
+                    container_obj = storage.all()
+                    container_obj[key_id]
+                except:
+                    print("** no instance found **")
+                    return
+            except:
+                print("** class doesn't exist **")
+                return
+        if len(args) >= 2:
+            try:
+                eval(args[0])
+                if len(args) == 2:
+                    print("** attribute name missing **")
+                    return
+            except:
+                print("** class doesn't exist **")
+                return
+
+        if len(args) >= 3:
+            try:
+                eval(args[0])
+                if len(args) == 3:
+                    print("** value missing **")
+                    return
+            except:
+                print("** class doesn't exist **")
+                return
+        if len(args) >= 4:
             try:
                 eval(args[0])
                 key_id = args[0] + "." + args[1]
@@ -187,7 +235,8 @@ class HBNBCommand(cmd.Cmd):
                     except:
                         pass
                     value_id = args[3]
-                    value_id = value_id[1:-1]
+                    if ((value_id[0] == "\'") or (value_id[0] == "\"")) and ((value_id[len(value_id)-1] == "\'") or (value_id[len(value_id)-1] == "\"")):
+                        value_id = value_id[1:-1]
                     setattr(obj, args[2], value_id)
                     storage.save()
                 else:
