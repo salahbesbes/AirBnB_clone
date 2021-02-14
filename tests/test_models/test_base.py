@@ -6,6 +6,7 @@ import pep8
 import inspect
 import unittest
 from models import base_model
+
 Base = base_model.BaseModel
 
 
@@ -13,6 +14,7 @@ class TestDocBase(unittest.TestCase):
     """
         Testing Documentaion and Pep8 for The Base Module
     """
+
     @classmethod
     def SetUpClass(cls):
         """
@@ -28,8 +30,8 @@ class TestDocBase(unittest.TestCase):
         pep = pep8.StyleGuide(quiet=True)
         res = pep.check_files(['models/base_model.py'])
         self.assertEqual(
-                        res.total_errors, 0,
-                        "Found Code style and warning")
+            res.total_errors, 0,
+            "Found Code style and warning")
 
     def test_pep8_for_test_base_module(self):
         """
@@ -39,8 +41,8 @@ class TestDocBase(unittest.TestCase):
         pep = pep8.StyleGuide(quiet=True)
         res = pep.check_files(['tests/test_models/test_base.py'])
         self.assertEqual(
-                        res.total_errors, 0,
-                        "Found Code style and warning")
+            res.total_errors, 0,
+            "Found Code style and warning")
 
     def test_base_docstring(self):
         """
@@ -67,6 +69,7 @@ class TestDocBase(unittest.TestCase):
         """
             Test For Base Module
         """
+
         def test_module_args(self):
             """
                 Testing Module Args
