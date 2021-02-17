@@ -8,7 +8,8 @@ from io import StringIO
 import re
 from unittest.mock import patch
 from console import HBNBCommand
-from models import storage
+from models import *
+import random
 
 """
     The plus symbol + matche one or more occurrences of the pattern left to it
@@ -181,6 +182,22 @@ EOF  all  create  destroy  help  quit  show  update
                 HBNBCommand().onecmd("destroy {} 12121212".format(className))
                 expected = "** no instance found **\n"
                 self.assertEqual(expected, f.getvalue())
+
+    def test_destroy_console_cmd_work_as_expected(self):
+        """
+        Test <destroy BaseModel id>
+        objects = storage.all()
+        length_before = len(objects)
+        while length_before > 0:
+            key = random.choice(list(objects.keys()))
+            id = key.split(".")[1]
+            className = key.split(".")[0]
+            HBNBCommand().onecmd("destroy {} {}".format(className, id))
+            length_after = len(objects)
+            self.assertEqual(length_before - 1, length_after)
+            self.assertNotIn(key, storage.all().keys())
+            length_before = length_after
+        """
 
     def test_help_all_console_cmd(self):
         """

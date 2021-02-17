@@ -58,7 +58,6 @@ class HBNBCommand(cmd.Cmd):
             all_args = command.split("(")[1][:-1]  # *args + **kwargs
             className = core_args[0]
             functionName = core_args[1]
-            print("allargs ", all_args)
             if all_args != "":
                 first_brace, second_brace = self.check_for_braces(all_args,
                                                                   "{", "}")
@@ -78,7 +77,7 @@ class HBNBCommand(cmd.Cmd):
                     new_val = arguments[2]  # if we didn't found "["
             return className, functionName, obj_id, attr, new_val
         except Exception as ex:
-            print(ex)
+            # print(ex)
             return className, functionName, obj_id, attr, new_val
 
     def default(self, line):
@@ -102,7 +101,6 @@ class HBNBCommand(cmd.Cmd):
             return
         try:
             args = self.get_list_of_args(line)
-            print(args)
 
             if len(args) > 1:
                 className, functionName, obj_id, attr, new_val = args
@@ -126,9 +124,8 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("*** Unknown syntax: {}".format(line))
                 return False
-        except Exception as ex:
-            print(ex)
-            raise Exception
+        except Exception:
+            pass
 
     def do_create(self, arg):
         """
@@ -222,6 +219,7 @@ class HBNBCommand(cmd.Cmd):
             return
         if len(args) == 1:
             try:
+                eval(args[0])
                 for obj_id in container_obj.keys():
                     if type(container_obj[obj_id]) is eval(args[0]):
                         # the solution is using reper() => print the type too
@@ -285,7 +283,6 @@ class HBNBCommand(cmd.Cmd):
         if len(args) >= 4:
             args = " ".join(str(arg).split(maxsplit=3)).split(maxsplit=3)
 
-            print("args ===", args)
             class_name = args[0]
             obj_id = args[1]
             obj_attr = args[2].strip("\"\'")
@@ -302,15 +299,14 @@ class HBNBCommand(cmd.Cmd):
                                                              type_attr)
                         if obj_new_val is False:
                             return
-                    except Exception as ex:
-                        print(ex, "but i will set it as new attr")
+                    except Exception:
+                        obj_new_val = self.convert_new_val(obj_new_val)
                     setattr(obj, obj_attr, obj_new_val)
                     storage.save()
                 else:
                     print("** no instance found **")
                     return
             except Exception as ex:
-                print(ex)
                 print("** class doesn't exist **")
 
     @staticmethod
@@ -318,32 +314,16 @@ class HBNBCommand(cmd.Cmd):
         try:
             # try to cast
             if att_type is list:
-                print("expect list type ")
                 try:
                     cast_list = eval("{}".format(str(new_att)))
-                    print("after evam ", type(cast_list))
                     for el in cast_list:
                         if type(el) is not str:
-                            print("this is not a string list")
                             return False
                     return cast_list
                 except SyntaxError:
-                    print("this is not a list")
                     return False
             if att_type is str:
-                try:
-                    print(type(new_att))
-                    value = eval("{}".format(new_att))
-                    print(type(value))
-                    if type(value) is not str:
-                        print("typr(eval({})) => is not str".format(new_att))
-                        return False
-                    else:
-                        print("typr(eval({})) ===== str".format(new_att))
-                        return value
-                except Exception:
-                    print("eval({}) => raised an error".format(new_att))
-                    return False
+                return att_type(new_att)
             value = att_type(new_att)
             if att_type is int or att_type is float:
                 if new_att.isdigit():
