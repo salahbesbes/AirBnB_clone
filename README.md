@@ -1,5 +1,5 @@
 # AirBnB_clone
-<p align="center"><img src="https://holbertonintranet.s3.amazonaws.com/uploads/medias/2018/6/65f4a1dd9c51265f49d0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUWMNL5ANN%2F20210217%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210217T160904Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=deb6ae0aa841f34ac6441ffcfaac9bb3e5ce65dce58fcdd73c87522f726d2b70" alt="AirBnb  logo"></p>
+<p align="center"><img src="bnb.png alt="AirBnb  logo"></p>
 
 ## Descreption:
 The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project . This the first part of it the console( command line interepteur)
@@ -19,9 +19,6 @@ The console is the first segment of the AirBnB project at Holberton School that 
 * all
 * update
 * count
-
-## Examples
-
 
 ## Examples of use
 ```
