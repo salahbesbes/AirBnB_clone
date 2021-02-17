@@ -1,4 +1,4 @@
-# AirBnB_clone
+# AirBnB clone
 
 ## Descreption:
 The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project . This the first part of it the console( command line interepteur)
