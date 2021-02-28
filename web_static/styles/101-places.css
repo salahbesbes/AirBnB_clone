@@ -1,0 +1,146 @@
+.places {
+  display: flex;
+  flex-wrap: wrap;
+}
+.places ul li {
+  list-style: none;
+}
+.places h1 {
+  text-align: left;
+  font-size: 30px;
+  margin-bottom: 0;
+}
+
+.places article {
+  max-width: 390px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ff5a5f;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.places ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+
+.places ul li {
+  text-align: left;
+  margin: 0px auto;
+  display: flex;
+}
+
+.places ul li h2 {
+  font-size: 30px;
+}
+
+article .price {
+  display: flex;
+  margin-left: auto;
+}
+article .price > div {
+  margin-left: auto;
+}
+article .price > h2 {
+  border-style: none;
+  margin-left: auto;
+}
+.price_by_night {
+  height: 60px;
+  width: 60px;
+  border: 4px solid #ff5a5f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #ff5a5f;
+  font-size: 30px;
+  padding: 7px;
+}
+
+article .information {
+  height: 80px;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  display: flex;
+  padding: 10px auto;
+}
+article .information > div {
+  margin: 0 auto;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+}
+article .information > .max_guest > span {
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/max_gest.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+article .information > .number_rooms > span {
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/nb_rooms.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+article .information > .number_bathrooms > span {
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/nb_bathrooms.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+article .user {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+article > div > h2 {
+  font-size: 16px;
+  border-bottom: 1px solid #dddddd;
+  text-align: left;
+  padding-bottom: 10px;
+}
+article > div > h3 {
+  margin-bottom: 0px;
+}
+article > div > p {
+  margin-top: 5px;
+}
+
+article > div > ul,
+article > div > ul > li {
+  list-style: none;
+}
+article > div > ul {
+  display: flex;
+  flex-direction: column;
+}
+article > div > ul > li {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+}
+
+article > div > ul > li > span {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 20px 10px 0;
+}
+article > .amenities > ul > li > span.tv {
+  background-image: url("../images/tv.png");
+}
+article > .amenities > ul > li > span.wifi {
+  background-image: url("../images/wifi.png");
+}
+article > .amenities > ul > li > span.pets {
+  background-image: url("../images/pets.png");
+}
