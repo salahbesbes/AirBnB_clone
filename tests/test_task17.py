@@ -67,12 +67,15 @@ class TestConsoleFunction(unittest.TestCase):
 
     def test_show_obj(self):
         """
-            <class name>.sho(<id>) => eval(line[)
+            <class name>.show(<id>)
         """
         for class_name in self.classes:
             with patch('sys.stdout', new=StringIO()) as f:
                 obj = self.get_first_occurence_by_class_name(class_name)
                 if obj:
+                    HBNBCommand().onecmd("{}.show({})".format(
+                                                                class_name,
+                                                                obj.id))
                     HBNBCommand().onecmd("{}.show({})".format(class_name,
                                                               obj.id))
                     self.assertEqual(str(obj), f.getvalue()[:-1])
